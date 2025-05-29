@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Void Games</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Add Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
@@ -217,6 +217,10 @@
                 <img src="kick.png" alt="Kick the Buddy">
                 <h3>Kick the Buddy</h3>
             </div>
+            <div class="game-card" data-url="https://worldunion.info/assets/g/gta2/">
+                <img src="gta2.png" alt="GTA 2">
+                <h3>GTA 2</h3>
+            </div>
         </div>
     </div>
 
@@ -224,19 +228,19 @@
 
     <div id="game-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-frame-container">
-                <iframe id="game-frame" src="" frameborder="0"></iframe>
-            </div>
             <div class="modal-header">
                 <div class="modal-title" id="game-title">Game Title</div>
                 <div class="modal-controls">
-                    <button class="modal-button" onclick="reloadGame()">
-                        <i class="fas fa-redo"></i>
+                    <button class="modal-button" onclick="reloadGame()" title="Reload Game">
+                        <i class="fas fa-rotate-right"></i>
                     </button>
-                    <button class="modal-button" onclick="toggleFullscreen()">
+                    <button class="modal-button" onclick="toggleFullscreen()" title="Fullscreen">
                         <i class="fas fa-expand"></i>
                     </button>
                 </div>
+            </div>
+            <div class="modal-frame-container">
+                <iframe id="game-frame" src="" frameborder="0"></iframe>
             </div>
         </div>
     </div>
