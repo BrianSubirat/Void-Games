@@ -3,21 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
     particlesJS('home-particles-js', {
         particles: {
             number: {
-                value: 50,
+                value: 80,
                 density: {
                     enable: true,
                     value_area: 800
                 }
             },
             color: {
-                value: '#ffffff'
+                value: ["#00fffc", "#fc00ff"]
             },
             shape: {
-                type: 'circle'
+                type: "circle"
             },
             opacity: {
-                value: 0.2,
-                random: false
+                value: 0.5,
+                random: true
             },
             size: {
                 value: 3,
@@ -26,28 +26,37 @@ document.addEventListener('DOMContentLoaded', function() {
             line_linked: {
                 enable: true,
                 distance: 150,
-                color: '#ffffff',
+                color: "#00fffc",
                 opacity: 0.2,
                 width: 1
             },
             move: {
                 enable: true,
-                speed: 1,
-                direction: 'none',
-                random: false,
+                speed: 2,
+                direction: "none",
+                random: true,
                 straight: false,
-                out_mode: 'out',
+                out_mode: "out",
                 bounce: false
             }
         },
         interactivity: {
-            detect_on: 'canvas',
+            detect_on: "canvas",
             events: {
                 onhover: {
                     enable: true,
-                    mode: 'repulse'
+                    mode: "repulse"
                 },
-                resize: true
+                onclick: {
+                    enable: true,
+                    mode: "push"
+                }
+            },
+            modes: {
+                repulse: {
+                    distance: 100,
+                    duration: 0.4
+                }
             }
         },
         retina_detect: true
@@ -162,12 +171,71 @@ function openGame(url, event) {
     } catch (error) {
         console.error('Error initializing particles:', error);
     }
+    
+    // Add loader
+    const loaderHTML = `
+        <div class="game-loader">
+            <div class="a2d">
+                <div class="dot" style="--i: 0"></div>
+                <div class="dot" style="--i: 1"></div>
+            </div>
+            <h1>Loading game...</h1>
+        </div>
+    `;
+    
+    document.querySelector('.modal-frame-container').insertAdjacentHTML('beforeend', loaderHTML);
+    
+    // Hide loader when game loads
+    const gameFrame = document.getElementById('game-frame');
+    gameFrame.onload = function() {
+        const loader = document.querySelector('.game-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                if (loader && loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
+            }, 500);
+        }
+    };
+
+    // Add error handling for frame load
+    gameFrame.onerror = function() {
+        const loader = document.querySelector('.game-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                if (loader && loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
+            }, 500);
+        }
+    };
+
+    // Set a timeout to remove loader if it stays too long
+    setTimeout(() => {
+        const loader = document.querySelector('.game-loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                if (loader && loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
+            }, 500);
+        }
+    }, 10000); // 10 second timeout
 }
 
 function closeGame() {
     document.getElementById('game-modal').style.display = 'none';
     document.getElementById('game-frame').src = '';
     document.body.style.overflow = 'auto';
+    
+    // Remove loader if present
+    const loader = document.querySelector('.game-loader');
+    if (loader) {
+        loader.remove();
+    }
     
     // Clear particles
     if(window.pJSDom && window.pJSDom.length > 0) {

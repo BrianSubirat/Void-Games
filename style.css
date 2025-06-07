@@ -6,27 +6,48 @@
 }
 
 body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: #000;
     color: white;
     min-height: 100vh;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-conic-gradient(from var(--ang, 0deg) at var(--x, 50%) var(--y, 50%), 
+        #00fffc, #fc00ff, #fffc00, #00fffc 33.333%);
+    mix-blend-mode: color-dodge;
+    opacity: 0.05;
+    z-index: -1;
+    animation: bgAnimation 6s linear infinite;
+}
+
+@keyframes bgAnimation {
+    to {
+        --ang: 360deg;
+    }
 }
 
 .header {
     text-align: center;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .header h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
-    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    background: linear-gradient(45deg, #00fffc, #fc00ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 20px rgba(0, 255, 252, 0.5);
 }
 
 .search-container {
@@ -39,26 +60,27 @@ body {
     width: 600px;
     padding: 1rem 2rem;
     border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(0, 255, 252, 0.3);
+    background: rgba(0, 0, 0, 0.6);
     color: white;
     font-size: 1.1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 252, 0.2);
 }
 
 #search-input:focus {
     outline: none;
-    border-color: #4ecdc4;
-    box-shadow: 0 0 20px rgba(78, 205, 196, 0.2);
+    border-color: #00fffc;
+    box-shadow: 0 0 30px rgba(0, 255, 252, 0.4);
 }
 
 .game-count {
     text-align: center;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     margin: 1rem 0;
     font-size: 1.1rem;
     font-weight: 300;
+    text-shadow: 0 0 10px rgba(0, 255, 252, 0.5);
 }
 
 .game-container {
@@ -75,20 +97,49 @@ body {
 }
 
 .game-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 252, 0.2);
+    border: 1px solid rgba(0, 255, 252, 0.2);
+    position: relative;
 }
 
 .game-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    border-color: rgba(78, 205, 196, 0.5);
+    transform: translateY(-10px);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 252, 0.4),
+        0 0 50px rgba(252, 0, 255, 0.2);
+    border-color: #00fffc;
+}
+
+.game-card:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    border: 2px solid #00fffc;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 252, 0.4),
+        inset 0 0 30px rgba(0, 255, 252, 0.2);
+    animation: borderGlow 1.5s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes borderGlow {
+    from {
+        opacity: 0.5;
+        box-shadow: 0 0 20px rgba(0, 255, 252, 0.3);
+    }
+    to {
+        opacity: 1;
+        box-shadow: 0 0 40px rgba(0, 255, 252, 0.6);
+    }
 }
 
 .game-card img {
@@ -96,19 +147,16 @@ body {
     height: 180px;
     object-fit: cover;
     transition: transform 0.4s ease;
+    filter: brightness(0.9);
 }
 
 .game-card:hover img {
     transform: scale(1.05);
+    filter: brightness(1.1);
 }
 
 .game-card h3 {
-    padding: 1rem;
-    font-size: 1rem;
-    color: #fff;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
+    display: none;
 }
 
 .modal {
@@ -126,14 +174,14 @@ body {
 .modal-content {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    height: 90%;
+    width: 95%;
+    height: 95%;
     margin: 2.5% auto;
-    background: rgba(26, 26, 46, 0.95);
+    background: rgba(0, 0, 0, 0.9);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 255, 252, 0.3);
+    border: 1px solid rgba(0, 255, 252, 0.2);
 }
 
 .modal-header {
@@ -206,4 +254,90 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
+}
+
+/* Add new loading animation styles */
+.modal-frame-container {
+    position: relative;
+}
+
+.game-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: grid;
+    place-content: center;
+    z-index: 10;
+    transition: opacity 0.5s;
+}
+
+.game-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.game-loader .a2d {
+    filter: drop-shadow(0 0 0.25em currentcolor) blur(1px);
+    animation: loaderRotate 3s linear infinite;
+}
+
+.game-loader .dot {
+    --not-i: calc(1 - var(--i));
+    --sgn-i: calc(2*var(--i) - 1);
+    --full: linear-gradient(currentcolor, currentcolor);
+    margin-top: calc(var(--sgn-i)*2*2.125em);
+    border: solid 1.25em transparent;
+    padding: 0.25em;
+    width: 2.5em;
+    height: 2.5em;
+    transform: rotate(calc(var(--not-i)*.5turn)) scalex(var(--sgn-i));
+    background: var(--full) content-box, conic-gradient(transparent calc(var(--k0)*100%), currentcolor 0% calc(var(--k1)*100%), transparent 0%) border-box;
+    --mask: var(--full) content-box, var(--full) padding-box, var(--full);
+    -webkit-mask: var(--mask);
+    -webkit-mask-composite: xor;
+    mask: var(--mask);
+    mask-composite: exclude;
+    animation: dotAnim1 1.5s linear calc(var(--not-i)*-.5*1.5s) infinite,
+               dotAnim2 1.5s linear calc(var(--not-i)*-.5*1.5s) infinite;
+}
+
+.game-loader .dot::before,
+.game-loader .dot::after {
+    content: "";
+    grid-area: 1/1;
+    width: 1.25em;
+    height: 1.25em;
+    transform: rotate(calc(var(--k, var(--k0, 0))*1turn)) translatey(-2.125em);
+    opacity: calc(1000*(var(--k1) - var(--k0)));
+    background: currentcolor;
+}
+
+.game-loader .dot::after {
+    --k: var(--k1, .35);
+}
+
+.game-loader h1 {
+    margin-top: 2em;
+    color: #fff;
+    font-size: 1.5em;
+    filter: drop-shadow(0 0 0.25em currentcolor);
+}
+
+@keyframes loaderRotate {
+    to { transform: rotate(1turn); }
+}
+
+@keyframes dotAnim1 {
+    0%, 25% { --k0: 0; }
+    50% { --k0: 0.65; }
+    75%, 100% { --k0: 1; }
+}
+
+@keyframes dotAnim2 {
+    0% { --k1: 0; }
+    25% { --k1: 0.35; }
+    50%, 100% { --k1: 1; }
 }
